@@ -70,3 +70,45 @@ function updateCount() {
   else if (notes.length === 1) noteCount.textContent = "You have 1 note.";
   else noteCount.textContent = `You have ${notes.length} notes.`;
 }
+
+// 4. Add Note with Validation
+function addNote(text, category) {
+  const cleanedText = text.trim();
+  
+  if (cleanedText.length === 0) {
+    errorMessage.textContent = "Please type a note first.";
+    return false;
+  }
+  if (cleanedText.length > 200) {
+    errorMessage.textContent = "Notes must be 200 characters or fewer.";
+    return false;
+  }
+
+  errorMessage.textContent = ""; // Clear error on success
+
+  const newNote = {
+    id: Date.now(),
+    text: cleanedText,
+    category: category,
+    createdAt: new Date().toLocaleString(),
+  };
+
+  notes.push(newNote);
+  saveNotes();
+  render();
+  return true;
+}
+
+// 5. Delete Note
+function deleteNote(id) {
+  notes = notes.filter((note) => note.id !== id);
+  saveNotes();
+  render();
+}
+
+// 6. Search Notes
+function searchNotes(query) {
+  const lowerQuery = query.toLowerCase();
+  const filtered = notes.filter((note) => note.text.toLowerCase().includes(lowerQuery));
+  render(filtered);
+}
