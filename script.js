@@ -112,3 +112,29 @@ function searchNotes(query) {
   const filtered = notes.filter((note) => note.text.toLowerCase().includes(lowerQuery));
   render(filtered);
 }
+
+// 7. Event Listeners
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const success = addNote(input.value, categorySelect.value);
+  if (success) {
+    input.value = "";
+    input.focus();
+  }
+});
+
+searchInput.addEventListener("input", (event) => {
+  searchNotes(event.target.value);
+});
+
+// Bonus: Clear All
+clearAllBtn.addEventListener("click", () => {
+  if (confirm("Delete all notes?")) {
+    notes = [];
+    saveNotes();
+    render();
+  }
+});
+
+// 8. Initial Render
+render();
